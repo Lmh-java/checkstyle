@@ -37,13 +37,14 @@ compare_results() {
 BASELINE=($(parse_benchmark_result "./.ci/baseline_benchmark.txt"))
 
 # package patch
-JAR_VERSION=$(grep -oP '<version>\K[^<]+' pom.xml)
 export MAVEN_OPTS='-Xmx2000m'
 mvn -e --no-transfer-progress -Passembly,no-validations package
 
 # run benchmark and parse result
-bash ./.ci/run-benchmark.sh "./target/checkstyle-${JAR_VERSION}-all.jar"
+JAR_FILE=$(find "./target/" -type f -name "checkstyle-*-all.jar")
+bash ./.ci/run-benchmark.sh "${JAR_FILE}"
 PATCH=($(parse_benchmark_result "./patch_benchmark.txt"))
 
 # compare two metrics
 compare_results
+exit $?

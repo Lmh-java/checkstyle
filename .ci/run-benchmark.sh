@@ -58,4 +58,5 @@ run_benchmark() {
 
 # save the benchmark result
 run_benchmark | tee ./patch_benchmark.txt
+exit $?
 
