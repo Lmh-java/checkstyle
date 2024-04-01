@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e
+set -x
 
 # Check if jar path is provided
 JAR_PATH=$1
