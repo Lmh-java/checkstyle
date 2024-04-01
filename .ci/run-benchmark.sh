@@ -1,6 +1,7 @@
 #!/bin/bash
 
 set -x
+set -e
 
 # Check if jar path is provided
 JAR_PATH=$1
@@ -16,7 +17,7 @@ SAMPLE_PROJECT="./.ci/jdk21"
 time_command() {
   # Run the command with time
   TEST_COMMAND=$1
-  TIME_OUTPUT=$(/usr/bin/time -l $TEST_COMMAND 2>&1)
+  TIME_OUTPUT=$(command time -l $TEST_COMMAND 2>&1)
   # Extract memory usage and execution time
   MEMORY=$(echo "$TIME_OUTPUT" | awk '/maximum resident set size/ {print $1}')
   EXECUTION_TIME=$(echo "$TIME_OUTPUT" | awk '/real/ {print $1}')
