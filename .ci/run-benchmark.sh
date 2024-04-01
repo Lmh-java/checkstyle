@@ -17,9 +17,9 @@ SAMPLE_PROJECT="./.ci/jdk21"
 time_command() {
   # Run the command with time
   TEST_COMMAND=$1
-  TIME_OUTPUT=$(command time -l $TEST_COMMAND 2>&1)
+  TIME_OUTPUT=$(command time -p $TEST_COMMAND 2>&1)
   # Extract memory usage and execution time
-  MEMORY=$(echo "$TIME_OUTPUT" | awk '/maximum resident set size/ {print $1}')
+#  MEMORY=$(echo "$TIME_OUTPUT" | awk '/maximum resident set size/ {print $1}')
   EXECUTION_TIME=$(echo "$TIME_OUTPUT" | awk '/real/ {print $1}')
 
   local RESULT_ARRAY=($MEMORY $EXECUTION_TIME)
@@ -35,26 +35,26 @@ time_command() {
 #  echo "============================================================"
 #}
 run_benchmark() {
-  local TOTAL_MEMORY=0
+#  local TOTAL_MEMORY=0
   local TOTAL_TIME=0
   local NUM_RUNS=3
 
   for ((i = 1; i <= NUM_RUNS; i++)); do
     echo "Running benchmark ${i}/${NUM_RUNS}..."
     local BENCHMARK=($(time_command "java -jar $JAR_PATH -c ./.ci/benchmark-config.xml $SAMPLE_PROJECT"))
-    TOTAL_MEMORY=$((TOTAL_MEMORY + BENCHMARK[0]))
+#    TOTAL_MEMORY=$((TOTAL_MEMORY + BENCHMARK[0]))
     TOTAL_TIME=$(echo "$TOTAL_TIME + ${BENCHMARK[1]}" | bc)
     echo "================== BENCHMARK RESULT #${i} =================="
-    echo "Memory Usage: ${BENCHMARK[0]} bytes"
+#    echo "Memory Usage: ${BENCHMARK[0]} bytes"
     echo "Execution Time: ${BENCHMARK[1]} s"
     echo "============================================================"
   done
 
-  local AVG_MEMORY=$((TOTAL_MEMORY / NUM_RUNS))
+#  local AVG_MEMORY=$((TOTAL_MEMORY / NUM_RUNS))
   local AVG_TIME=$(echo "scale=2; $TOTAL_TIME / $NUM_RUNS" | bc)
 
   echo "===================== BENCHMARK SUMMARY ===================="
-  echo "Average Memory Usage: ${AVG_MEMORY} bytes"
+#  echo "Average Memory Usage: ${AVG_MEMORY} bytes"
   echo "Average Execution Time: ${AVG_TIME} s"
   echo "============================================================"
 }
