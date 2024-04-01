@@ -20,7 +20,7 @@ time_command() {
   TIME_OUTPUT=$(command time -p $TEST_COMMAND 2>&1)
   # Extract memory usage and execution time
 #  MEMORY=$(echo "$TIME_OUTPUT" | awk '/maximum resident set size/ {print $1}')
-  EXECUTION_TIME=$(echo "$TIME_OUTPUT" | awk '/real/ {print $1}')
+  EXECUTION_TIME=$(echo "$TIME_OUTPUT" | awk '/real/ {print $2}')
 
   local RESULT_ARRAY=($MEMORY $EXECUTION_TIME)
   echo "${RESULT_ARRAY[@]}"
