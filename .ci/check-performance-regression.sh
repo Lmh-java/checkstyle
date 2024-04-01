@@ -42,7 +42,7 @@ export MAVEN_OPTS='-Xmx2000m'
 mvn -e --no-transfer-progress -Passembly,no-validations package
 
 # run benchmark and parse result
-sh ./.ci/run-benchmark.sh "./target/checkstyle-${JAR_VERSION}-all.jar"
+bash ./.ci/run-benchmark.sh "./target/checkstyle-${JAR_VERSION}-all.jar"
 PATCH=($(parse_benchmark_result "./patch_benchmark.txt"))
 
 # compare two metrics
