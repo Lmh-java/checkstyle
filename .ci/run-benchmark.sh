@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 # Check if jar path is provided
 JAR_PATH=$1
 if [ -z "$JAR_PATH" ]; then
