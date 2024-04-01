@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#set -x
+set -x
 MAX_DIFFERENCE=10
 
 # parse benchmark result
