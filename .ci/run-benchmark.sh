@@ -11,7 +11,7 @@ if [ -z "$JAR_PATH" ]; then
 fi
 
 # Sample project path
-SAMPLE_PROJECT="./.ci/jdk21"
+SAMPLE_PROJECT="./.ci/jdk22"
 
 # run a command and time it
 time_command() {

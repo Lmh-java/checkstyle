@@ -35,11 +35,11 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha }}
           path: ./checkstyle
 
-      - name: Clone JDK 21 Repo
+      - name: Clone JDK 22 Repo
         uses: actions/checkout@v4
         with:
-          repository: openjdk/jdk21
-          path: ./checkstyle/.ci/jdk21
+          repository: openjdk/jdk22
+          path: ./checkstyle/.ci/jdk22
 
       - name: Setup local maven cache
         uses: actions/cache@v4
