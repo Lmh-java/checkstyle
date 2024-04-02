@@ -108,8 +108,8 @@ public final class Main {
      *      show all details in case of failure
      * @noinspectionreason CallToSystemExit - driver class must call exit
      **/
-    public static void main(String... args) throws IOException {
-//        Thread.sleep(5000);
+    public static void main(String... args) throws IOException, InterruptedException {
+        Thread.sleep(5000);
         final CliOptions cliOptions = new CliOptions();
         final CommandLine commandLine = new CommandLine(cliOptions);
         commandLine.setUsageHelpWidth(CliOptions.HELP_WIDTH);
