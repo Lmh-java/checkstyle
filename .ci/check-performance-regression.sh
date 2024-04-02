@@ -1,13 +1,11 @@
 #!/bin/bash
 
-set -x
 set -e
 MAX_DIFFERENCE=10
 
 # parse benchmark result
 parse_benchmark_result() {
   BENCHMARK_PATH=$1
-#  MEMORY=$(awk '/Average Memory Usage:/ {print $4}' "$BENCHMARK_PATH")
   EXECUTION_TIME=$(awk '/Average Execution Time:/ {print $4}' "$BENCHMARK_PATH")
 
   local RESULT_ARRAY=($EXECUTION_TIME)
@@ -16,10 +14,6 @@ parse_benchmark_result() {
 
 # compare baseline and patch benchmarks
 compare_results() {
-  # Calculate percentage difference for memory usage
-#  MEMORY_DIFFERENCE=$(echo "scale=4; ((${PATCH[0]} - ${BASELINE[0]}) / ${BASELINE[0]}) * 100" | bc)
-#  echo "Memory Usage Difference: $MEMORY_DIFFERENCE%"
-
   # Calculate percentage difference for execution time
   EXECUTION_TIME_DIFFERENCE=$(echo "scale=4; ((${PATCH[0]} - ${BASELINE[0]}) / ${BASELINE[0]}) * 100" | bc)
   echo "Execution Time Difference: $EXECUTION_TIME_DIFFERENCE%"
