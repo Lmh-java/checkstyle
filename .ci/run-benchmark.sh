@@ -22,7 +22,7 @@ time_command() {
 #  MEMORY=$(echo "$TIME_OUTPUT" | awk '/maximum resident set size/ {print $1}')
   EXECUTION_TIME=$(echo "$TIME_OUTPUT" | awk '/real/ {print $2}')
 
-  local RESULT_ARRAY=($MEMORY $EXECUTION_TIME)
+  local RESULT_ARRAY=($EXECUTION_TIME)
   echo "${RESULT_ARRAY[@]}"
 }
 
@@ -43,10 +43,10 @@ run_benchmark() {
     echo "Running benchmark ${i}/${NUM_RUNS}..."
     local BENCHMARK=($(time_command "java -jar $JAR_PATH -c ./.ci/benchmark-config.xml $SAMPLE_PROJECT"))
 #    TOTAL_MEMORY=$((TOTAL_MEMORY + BENCHMARK[0]))
-    TOTAL_TIME=$(echo "$TOTAL_TIME + ${BENCHMARK[1]}" | bc)
+    TOTAL_TIME=$(echo "$TOTAL_TIME + ${BENCHMARK[0]}" | bc)
     echo "================== BENCHMARK RESULT #${i} =================="
 #    echo "Memory Usage: ${BENCHMARK[0]} bytes"
-    echo "Execution Time: ${BENCHMARK[1]} s"
+    echo "Execution Time: ${BENCHMARK[0]} s"
     echo "============================================================"
   done
 
