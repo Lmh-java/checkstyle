@@ -39,6 +39,8 @@ run_benchmark() {
   local TOTAL_TIME=0
   local NUM_RUNS=3
 
+  [ ! -d "$SAMPLE_PROJECT" ] && echo "Directory $SAMPLE_PROJECT DOES NOT exists." && exit 1
+  ls "$SAMPLE_PROJECT"
   for ((i = 1; i <= NUM_RUNS; i++)); do
     echo "Running benchmark ${i}/${NUM_RUNS}..."
     local BENCHMARK=($(time_command "java -jar $JAR_PATH -c ./.ci/benchmark-config.xml $SAMPLE_PROJECT"))
