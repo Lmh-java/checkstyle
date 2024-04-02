@@ -2,7 +2,8 @@
 # GitHub Action to generate Checkstyle report.
 #
 # Workflow starts when:
-# 1) issue comment - created
+# 1) push to master
+# 2) PR created or pushed
 #
 # For another bucket, you will need to change the secrets.
 #####################################################################################
