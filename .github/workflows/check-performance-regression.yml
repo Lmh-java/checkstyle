@@ -38,7 +38,7 @@ jobs:
       - name: Clone JDK 22 Repo
         uses: actions/checkout@v4
         with:
-          repository: openjdk/jdk22
+          repository: FasterXML/jackson-core
           path: ./checkstyle/.ci/jdk22
 
       - name: Setup local maven cache
