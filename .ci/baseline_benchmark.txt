@@ -1,19 +1,15 @@
 Running benchmark 1/3...
 ================== BENCHMARK RESULT #1 ==================
-Memory Usage: 1721102336 bytes
-Execution Time: 21.68 s
+Execution Time: 8.82 s
 ============================================================
 Running benchmark 2/3...
 ================== BENCHMARK RESULT #2 ==================
-Memory Usage: 1732280320 bytes
-Execution Time: 19.70 s
+Execution Time: 8.37 s
 ============================================================
 Running benchmark 3/3...
 ================== BENCHMARK RESULT #3 ==================
-Memory Usage: 1714171904 bytes
-Execution Time: 20.26 s
+Execution Time: 8.50 s
 ============================================================
 ===================== BENCHMARK SUMMARY ====================
-Average Memory Usage: 1722518186 bytes
-Average Execution Time: 20.54 s
+Average Execution Time: 8.56 s
 ============================================================
