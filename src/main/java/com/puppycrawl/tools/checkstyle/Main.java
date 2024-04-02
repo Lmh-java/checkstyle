@@ -110,6 +110,12 @@ public final class Main {
      **/
     public static void main(String... args) throws IOException {
 
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+
+        }
+
         final CliOptions cliOptions = new CliOptions();
         final CommandLine commandLine = new CommandLine(cliOptions);
         commandLine.setUsageHelpWidth(CliOptions.HELP_WIDTH);
