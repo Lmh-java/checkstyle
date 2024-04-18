@@ -3,73 +3,71 @@
 set -e
 
 # max difference tolerance in %
-MAX_DIFFERENCE=10
-# baseline of execution time in second
-EXECUTION_TIME_BASELINE=415.72
+THRESHOLD_PERCENTAGE=10
+# baseline of execution time in seconds
+BASELINE_SECONDS=415.72
 
 # sample project path
 SAMPLE_PROJECT="./.ci-temp/jdk17"
 CONFIG_FILE="./config/benchmark-config.xml"
 
-# run a command and time it
+# execute a command and time it
 # $TEST_COMMAND: command being timed
 time_command() {
-  # Run the command with time
-  local TIME_OUTPUT=$(command time -p "$@" 2>&1)
-  # Extract execution time
-  local EXECUTION_TIME=$(echo "$TIME_OUTPUT" | awk '/real/ {print $2}')
+  # execute the command with time
+  local EXECUTION_SECONDS=$((time -f "%e" "$@" 1>result.tmp 2>&1) 2>&1)
 
-  echo "${EXECUTION_TIME}"
+  echo "${EXECUTION_SECONDS}"
 }
 
-# run the benchmark a few times to calculate the average metrics
+# execute the benchmark a few times to calculate the average metrics
 # $JAR_PATH: path of the jar file being benchmarked
-run_benchmark() {
+execute_benchmark() {
   local JAR_PATH=$1
   if [ -z "$JAR_PATH" ]; then
       echo "Missing JAR_PATH as an argument."
       exit 1
   fi
 
-  local TOTAL_TIME=0
-  local NUM_RUNS=3
+  local TOTAL_SECONDS=0
+  local NUM_EXECUTIONS=3
 
   [ ! -d "$SAMPLE_PROJECT" ] &&
-    echo "Directory $SAMPLE_PROJECT DOES NOT exists." | exit 1
+    echo "Directory $SAMPLE_PROJECT DOES NOT exist." | exit 1
 
-  for ((i = 1; i <= NUM_RUNS; i++)); do
+  for ((i = 0; i < NUM_EXECUTIONS; i++)); do
     local CMD=(java -jar "$JAR_PATH" -c "$CONFIG_FILE" \
       -x .git -x module-info.java "$SAMPLE_PROJECT")
     local BENCHMARK=($(time_command "${CMD[@]}"))
-    TOTAL_TIME=$(echo "$TOTAL_TIME + ${BENCHMARK}" | bc)
+    TOTAL_SECONDS=$(echo "$TOTAL_SECONDS + $BENCHMARK" | bc)
   done
 
   # average execution time in patch
-  local AVG_TIME=$(echo "scale=2; $TOTAL_TIME /   $NUM_RUNS" | bc)
-  echo "$AVG_TIME"
+  local AVERAGE_IN_SECONDS=$(echo "scale=2; $TOTAL_SECONDS / $NUM_EXECUTIONS" | bc)
+  echo "$AVERAGE_IN_SECONDS"
 }
 
 # compare baseline and patch benchmarks
-# $EXECUTION_TIME execution time of the patch
+# $EXECUTION_TIME_SECONDS execution time of the patch
 compare_results() {
-  local EXECUTION_TIME=$1
-  if [ -z "$EXECUTION_TIME" ]; then
-        echo "Missing EXECUTION_TIME as an argument."
+  local EXECUTION_TIME_SECONDS=$1
+  if [ -z "$EXECUTION_TIME_SECONDS" ]; then
+        echo "Missing EXECUTION_TIME_SECONDS as an argument."
         exit 1
     fi
   # Calculate percentage difference for execution time
-  local EXECUTION_TIME_DIFFERENCE=$(echo "scale=4; \
-    ((${EXECUTION_TIME} - ${EXECUTION_TIME_BASELINE}) / ${EXECUTION_TIME_BASELINE}) * 100" | bc)
-  echo "Execution Time Difference: $EXECUTION_TIME_DIFFERENCE%"
+  local DEVIATION_IN_SECONDS=$(echo "scale=4; \
+    ((${EXECUTION_TIME_SECONDS} - ${BASELINE_SECONDS}) / ${BASELINE_SECONDS}) * 100" | bc)
+  echo "Execution Time Difference: $DEVIATION_IN_SECONDS%"
 
   # Check if differences exceed the maximum allowed difference
-  if (( $(echo "$EXECUTION_TIME_DIFFERENCE > $MAX_DIFFERENCE" | bc -l) )); then
-    echo "Difference exceeds the maximum allowed difference (${EXECUTION_TIME_DIFFERENCE}% \
-     > ${MAX_DIFFERENCE}%)!"
+  if (( $(echo "$DEVIATION_IN_SECONDS > $THRESHOLD_PERCENTAGE" | bc -l) )); then
+    echo "Difference exceeds the maximum allowed difference (${DEVIATION_IN_SECONDS}% \
+     > ${THRESHOLD_PERCENTAGE}%)!"
     exit 1
   else
-    echo "Difference is within the maximum allowed difference (${EXECUTION_TIME_DIFFERENCE}% \
-     <= ${MAX_DIFFERENCE}%)."
+    echo "Difference is within the maximum allowed difference (${DEVIATION_IN_SECONDS}% \
+     <= ${THRESHOLD_PERCENTAGE}%)."
     exit 0
   fi
 }
@@ -78,14 +76,17 @@ compare_results() {
 export MAVEN_OPTS='-Xmx2000m'
 mvn -e --no-transfer-progress -Passembly,no-validations package
 
-# run benchmark
+# start benchmark
 echo "Benchmark launching..."
-AVG_TIME="$(run_benchmark "$(find "./target/" -type f -name "checkstyle-*-all.jar")")"
+AVERAGE_IN_SECONDS="$(execute_benchmark "$(find "./target/" -type f -name "checkstyle-*-all.jar")")"
 echo "===================== BENCHMARK SUMMARY ===================="
-echo "Execution Time Baseline: ${EXECUTION_TIME_BASELINE} s"
-echo "Average Execution Time: ${AVG_TIME} s"
+echo "Execution Time Baseline: ${BASELINE_SECONDS} s"
+echo "Average Execution Time: ${AVERAGE_IN_SECONDS} s"
 echo "============================================================"
 
+# show the command execution result
+cat result.tmp
+
 # compare result with baseline
-compare_results "$AVG_TIME"
+compare_results "AVERAGE_IN_SECONDS"
 exit $?
