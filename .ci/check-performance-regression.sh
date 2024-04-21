@@ -35,6 +35,10 @@ execute_benchmark() {
   [ ! -d "$SAMPLE_PROJECT" ] &&
     echo "Directory $SAMPLE_PROJECT DOES NOT exist." | exit 1
 
+  # add suppressions to config file
+  sed -i '/  <!-- Filters -->/r ./config/projects-to-test/openjdk17-excluded.files' \
+        ./config/benchmark-config.xml
+
   for ((i = 0; i < NUM_EXECUTIONS; i++)); do
     local CMD=(java -jar "$JAR_PATH" -c "$CONFIG_FILE" \
       -x .git -x module-info.java "$SAMPLE_PROJECT")
