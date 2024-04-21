@@ -310,6 +310,7 @@ Dforce
 Dgpg
 Dhttp
 Diachenko
+diags
 dirname
 Djacoco
 Dlinkcheck
@@ -377,6 +378,7 @@ endline
 ENMI
 ent
 enum
+EOI
 eol
 eot
 equalsavoidnull
@@ -397,6 +399,7 @@ Exif
 explicitinitialization
 expr
 Externalizable
+failover
 fallsthrough
 fallthrough
 fallthru
@@ -542,6 +545,7 @@ hne
 homepage
 horizontalwhitespace
 Hostname
+hotspot
 href
 htaccess
 htag
@@ -602,6 +606,7 @@ interfaceistype
 interfacememberimpliedmodifier
 interfacetypeparametername
 interp
+Intf
 intqueue
 invalidformat
 invalidinherit
@@ -724,6 +729,7 @@ JText
 JToggle
 JTool
 jtree
+jtreg
 junit
 junitpioneer
 jvm
@@ -741,6 +747,7 @@ Kordas
 Kotlin
 lambdabodylength
 lambdaparametername
+langtools
 LBRACK
 lcurly
 Leanback
@@ -871,7 +878,6 @@ ncal
 ncss
 ndex
 needbraces
-NEGS
 Nejmeh
 NEQ
 nestedfordepth
@@ -1277,6 +1283,7 @@ suppresswithplaintextcommentfilter
 suse
 svg
 svn
+switchextra
 sxpath
 Sys
 sysextensions
@@ -1339,6 +1346,7 @@ tta
 ttf
 tvf
 tw
+Twr
 typecastparenpad
 typename
 typevariablenames
