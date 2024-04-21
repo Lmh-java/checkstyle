@@ -15,7 +15,7 @@ CONFIG_FILE="./config/benchmark-config.xml"
 # $TEST_COMMAND: command being timed
 time_command() {
   # execute the command and time it
-  /usr/bin/time -o -q time.temp -f "%e" "$@" &>result.tmp
+  /usr/bin/time -o time.temp -q -f "%e" "$@" &>result.tmp
 
   cat time.temp
 }
