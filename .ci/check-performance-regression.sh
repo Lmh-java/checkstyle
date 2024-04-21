@@ -79,6 +79,11 @@ mvn -e --no-transfer-progress -Passembly,no-validations package
 # start benchmark
 echo "Benchmark launching..."
 AVERAGE_IN_SECONDS="$(execute_benchmark "$(find "./target/" -type f -name "checkstyle-*-all.jar")")"
+
+# print the command execution result
+echo "================ MOST RECENT COMMAND RESULT ================="
+cat result.tmp
+
 echo "===================== BENCHMARK SUMMARY ===================="
 echo "Execution Time Baseline: ${BASELINE_SECONDS} s"
 echo "Average Execution Time: ${AVERAGE_IN_SECONDS} s"
@@ -87,7 +92,4 @@ echo "============================================================"
 # compare result with baseline
 compare_results "$AVERAGE_IN_SECONDS"
 
-# show the command execution result
-echo "================ MOST RECENT COMMAND RESULT ================="
-cat result.tmp
 exit $?
