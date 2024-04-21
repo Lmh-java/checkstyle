@@ -15,7 +15,7 @@ CONFIG_FILE="./config/benchmark-config.xml"
 # $TEST_COMMAND: command being timed
 time_command() {
   # execute the command with time
-  local EXECUTION_SECONDS=$((command time -f "%e" "$@" 1>result.tmp 2>&1) 2>&1)
+  local EXECUTION_SECONDS=$({time -f "%e" "$@" 1>result.tmp 2>&1 ;} 2>&1)
 
   echo "${EXECUTION_SECONDS}"
 }
@@ -30,7 +30,7 @@ execute_benchmark() {
   fi
 
   local TOTAL_SECONDS=0
-  local NUM_EXECUTIONS=3
+  local NUM_EXECUTIONS=1
 
   [ ! -d "$SAMPLE_PROJECT" ] &&
     echo "Directory $SAMPLE_PROJECT DOES NOT exist." | exit 1
