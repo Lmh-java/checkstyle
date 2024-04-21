@@ -14,10 +14,10 @@ CONFIG_FILE="./config/benchmark-config.xml"
 # execute a command and time it
 # $TEST_COMMAND: command being timed
 time_command() {
-  # execute the command with time
-  local EXECUTION_SECONDS=$(command time -f "%e" ("$@" &>result.tmp))
+  # execute the command and time it
+  /usr/bin/time -o time.temp -f "%e" "$@" &>result.tmp
 
-  echo "${EXECUTION_SECONDS}"
+  cat time.temp
 }
 
 # execute the benchmark a few times to calculate the average metrics
