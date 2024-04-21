@@ -50,4 +50,4 @@ jobs:
       - name: Run performance test
         run: |
           cd checkstyle
-          bash -x ./.ci/check-performance-regression.sh
+          bash ./.ci/check-performance-regression.sh
