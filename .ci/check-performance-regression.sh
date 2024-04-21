@@ -15,7 +15,7 @@ CONFIG_FILE="./config/benchmark-config.xml"
 # $TEST_COMMAND: command being timed
 time_command() {
   # execute the command with time
-  local EXECUTION_SECONDS=$(time -f "%e" "$@" 1>result.tmp 2>&1)
+  local EXECUTION_SECONDS=$(/usr/bin/time -f "%e" "$@" 1>result.tmp 2>&1)
 
   echo "${EXECUTION_SECONDS}"
 }
