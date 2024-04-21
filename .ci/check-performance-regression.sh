@@ -84,9 +84,10 @@ echo "Execution Time Baseline: ${BASELINE_SECONDS} s"
 echo "Average Execution Time: ${AVERAGE_IN_SECONDS} s"
 echo "============================================================"
 
-# show the command execution result
-cat result.tmp
-
 # compare result with baseline
-compare_results "AVERAGE_IN_SECONDS"
+compare_results "$AVERAGE_IN_SECONDS"
+
+# show the command execution result
+echo "================ MOST RECENT COMMAND RESULT ================="
+cat result.tmp
 exit $?
